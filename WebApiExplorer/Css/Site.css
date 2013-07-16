@@ -1,0 +1,177 @@
+﻿
+/* Always show vertical scrollbar */
+html {
+    overflow: -moz-scrollbars-vertical; 
+    overflow-y: scroll;
+}
+
+
+/* 
+------------------------------
+Base styles
+------------------------------ 
+ */
+
+body {font-family:'droid sans', Arial, sans-serif; background:url('../Images/header.png') repeat-x top left;}
+p {color:#333333;}
+
+h1,h2,h3 {font-weight:normal;}
+h1 {color:#0065a4; margin-top:0px;}
+h2 {color:#43525a;}
+h3 {color:#839097; margin-top:20px; margin-bottom:3px;}
+
+ol li {margin-bottom:3px;}
+ul li {margin-bottom:3px;}
+#headerLogo img {max-width: none !important;} /* This has been added to negate the max-width set in Bootstrap */
+
+a {color:#0065a4;}
+
+/* 
+------------------------------
+Structural styles
+------------------------------ 
+ */
+
+/*-- Structural wrapper --*/
+#siteContainer {background:url('../Images/texture.jpg') repeat-x bottom left;}
+.container-fluid {text-align:left;margin:0 auto; max-width:900px;}
+
+#content {min-height: 765px;}
+
+/* -- Header -- */
+#header {height:80px;}
+#revolution-links {color:#fff; padding-top:24px; text-align:right;}
+#revolution-links a {font-size:11px; color:#fff;}
+#revolution-links a:visited {font-size:11px; color:#ccc;}
+
+/* -- Footer - These are copied from StatPro.com -- */
+#footer {background:url('../Images/texture.jpg') repeat bottom left; padding:10px 25px;}
+#footer p, .footer-button-caption {color: #000; font-size: 12px; text-shadow: 0 -1px 0 rgba(0,0,0,0.15), 0 1px 0 rgba(255,255,255,0.8);}
+	
+#footer a:link {text-decoration: underline; color:#000000;}
+#footer a:visited {text-decoration: none; color:#000000;}
+#footer a:active {text-decoration: none; color:#000000;}
+#footer a:hover {text-decoration: none; color: #b42025;}
+
+
+/* 
+------------------------------
+Viewport styles
+------------------------------ 
+ */
+
+.tab-content {
+    overflow:visible;
+}
+
+#topRow {
+    text-align: right;
+}
+
+#userName {
+    margin-right: 15px;
+}
+
+#segmentsTreeQueryFormActions {
+    margin-bottom: 0px;
+}
+
+#timeSeriesMeasuresSelect {
+    height: 116px;
+}
+
+#timeSeriesQueryFormActions {
+    margin-bottom: 0px;
+}
+
+#getLastSuccessfulAnalysisPanel {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+#segmentsTreeResultsTableCntr {
+    overflow-y:hidden;
+    margin-bottom: 30px;
+}
+
+#segmentsTreeResultsTable {
+    margin-bottom: 0px;
+}
+
+
+/* 
+------------------------------
+Segments Tree Modal styles
+------------------------------ 
+ */
+
+#segmentsTreeMeasuresModal .modal-body {
+    max-height: none;
+}
+
+#segmentsTreeMeasuresModal .modal-body form {
+    margin-bottom: 0px;
+}
+
+#segmentsTreeMeasuresModal legend {
+    line-height: 30px;
+}
+
+#segmentsTreeMeasuresModalMeasures {
+    height: 162px;
+    overflow: auto;
+    border: 1px solid #dddddd;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    margin-bottom: 6px;
+}
+
+.selectModalMeasuresCntr label {
+    margin-bottom: 0px;
+}
+
+#segmentsTreeMeasuresModalSelectAllOrNoneCntr {
+    margin-right: 130px;
+}
+
+.selectModalMeasuresSelectionInfo {
+    min-width: 180px;
+    text-align: right;
+}
+
+
+/* 
+------------------------------
+Paged table styles
+------------------------------ 
+ */
+
+#portfoliosPagedTable tbody tr {
+    height: 30px;
+}
+
+.pagedTableHeader {
+}
+
+.pagedTableSearchControls .input-append {
+    margin-bottom: 0px;
+}
+
+.pagedTableFooter {
+    font-weight: 500 !important;
+}
+
+.pagedTablePreviousPage {
+    margin-right: 6px;
+}
+
+.pagedTablePageSelect {
+    margin-bottom: 0px;
+    width: 54px;
+}
+
+.pagedTableNextPage {
+    margin-left: 6px;
+}
+

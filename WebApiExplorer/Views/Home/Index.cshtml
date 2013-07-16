@@ -1,0 +1,756 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+@model StatPro.Revolution.WebApiExplorer.JsDtos.UserInfo
+
+<h2>StatPro Revolution Web API Explorer</h2>
+
+<div id="topRow" class="row-fluid">
+  <span id="userName"></span>
+
+  <button id="logOnOffBtn" class="btn btn-primary" type="button">
+    @if (!Model.isLoggedOn) {
+      @:Log On
+    } else {
+      @:Log Off
+    }
+  </button>
+</div>
+
+@* AntiForgeryToken form *@
+<form id="aftForm">
+  @AntiForgery.GetHtml()
+</form>
+
+<hr />
+
+<div id="jsViewContent" class="row-fluid">
+  <div id="tabs" class="tabbable">
+    <ul class="nav nav-pills">
+      <li class="active"><a id="portfoliosPaneBtn" href="#portfoliosPane" data-toggle="tab">Portfolios</a></li>
+      <li><a id="analysisPaneBtn" href="#analysisPane" data-toggle="tab">Portfolio Analysis</a></li>
+      <li><a id="segmentsTreePaneBtn" href="#segmentsTreePane" data-toggle="tab">Segments Tree</a></li>
+      <li><a id="timeSeriesPaneBtn" href="#timeSeriesPane" data-toggle="tab">Time Series</a></li>
+    </ul>
+
+    <div class="tab-content">
+
+      <div id="portfoliosPane" class="tab-pane active">
+        <div id="portfoliosGridView">
+          <table id="portfoliosPagedTable" class="table table-striped table-bordered table-condensed table-hover">
+            <thead>
+              <tr>
+                <th colspan="5" class="pagedTableHeader">
+                  <span class="pagedTableTitle">Portfolios</span>
+
+                  <span class="pagedTableSearchControls pull-right">
+                    <span style="font-weight:normal;">Names starting with:</span>
+	                  <span class="input-append search">
+                      <input type="text" class="pagedTableSearchText input-medium" maxlength="20" placeholder="Search" />
+                      <button class="pagedTableSearchBtn btn"><i class="icon-search"></i></button>
+                    </span>
+                  </span>
+                </th>
+              </tr>
+              <tr>
+                <th>Name</th>
+                <th>Code</th>
+                <th>Owner</th>
+                <th>Identifier</th>
+                <th>Analysis</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td></td><td></td><td></td><td></td><td></td>
+              </tr>
+              <tr>
+                <td></td><td></td><td></td><td></td><td></td>
+              </tr>
+              <tr>
+                <td></td><td></td><td></td><td></td><td></td>
+              </tr>
+              <tr>
+                <td></td><td></td><td></td><td></td><td></td>
+              </tr>
+              <tr>
+                <td></td><td></td><td></td><td></td><td></td>
+              </tr>
+              <tr>
+                <td></td><td></td><td></td><td></td><td></td>
+              </tr>
+              <tr>
+                <td></td><td></td><td></td><td></td><td></td>
+              </tr>
+              <tr>
+                <td></td><td></td><td></td><td></td><td></td>
+              </tr>
+              <tr>
+                <td></td><td></td><td></td><td></td><td></td>
+              </tr>
+              <tr>
+                <td></td><td></td><td></td><td></td><td></td>
+              </tr>
+              <tr>
+                <td></td><td></td><td></td><td></td><td></td>
+              </tr>
+              <tr>
+                <td></td><td></td><td></td><td></td><td></td>
+              </tr>
+              <tr>
+                <td></td><td></td><td></td><td></td><td></td>
+              </tr>
+              <tr>
+                <td></td><td></td><td></td><td></td><td></td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <th colspan="5" class="pagedTableFooter">
+                  <span>
+                    <span class="pagedTableStartItem">0</span> -
+                    <span class="pagedTableEndItem">0</span> of
+                    <span class="pagedTableItemsCount">0</span>
+                    <span class="pagedTableItems">portfolios</span>
+                  </span>
+
+                  <span class="pagedTablePageControls pull-right">
+                    <button class="btn pagedTablePreviousPage"><i class="icon-chevron-left"></i></button>
+
+                    <span>Page</span>
+                    <select class="pagedTablePageSelect">
+                      <option value="0">0</option>
+                    </select>
+                    <span>of <span class="pagedTablePagesCount">0</span></span>
+
+                    <button class="btn pagedTableNextPage"><i class="icon-chevron-right"></i></button>
+                  </span>
+                </th>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+
+      <div id="analysisPane" class="tab-pane">
+        <h4 id="analysisPortfolioLabel" class="muted">Portfolio:</h4>
+        <div id="analysisView">
+        </div>
+      </div>
+
+      <div id="segmentsTreePane" class="tab-pane">
+        <h4 id="segmentsTreePortfolioLabel" class="muted">Portfolio:</h4>
+        <div id="segmentsTreeView">
+          <div id="segmentsTreeNoResults">
+          </div>
+
+          <div id="segmentsTreeMeasuresModal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="segmentsTreeMeasuresModalLabel" aria-hidden="true">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h3 id="segmentsTreeMeasuresModalLabel">Segments Tree Measures</h3>
+            </div>
+            <div class="modal-body">
+              <form>
+                <fieldset>
+                  <legend><small>Layouts</small></legend>
+                  <div class="controls controls-row">
+                    <label class="span2" for="segmentsTreeMeasuresModalLayouts">Layout:</label>
+                    <select id="segmentsTreeMeasuresModalLayouts" class="selectModalLayoutsSelect span5"></select>
+                    <div class="btn-group span5">
+                      <button class="btn dropdown-toggle" data-toggle="dropdown">Actions <span class="caret"></span></button>
+                      <ul class="dropdown-menu">
+                        <li><a href="#" class="selectModalCreateLayoutAction">Create Layout</a></li>
+                        <li><a href="#" class="selectModalExportLayoutAction">Export Layout</a></li>
+                        <li><a href="#" class="selectModalImportLayoutAction">Import Layout</a></li>
+                        <li><a href="#" class="selectModalResetLayoutAction">Reset Layout</a></li>
+                        <li><a href="#" class="selectModalDeleteLayoutAction">Delete Layout</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="selectModalLayoutActionCntr controls controls-row invisible">
+                    <label class="selectModalLayoutActionLabel span2" for="segmentsTreeMeasuresModalActionInput">Label:</label>
+                    <input type="text" id="segmentsTreeMeasuresModalActionInput" class="selectModalLayoutActionInput span5" />
+                    <button class="btn btn-primary btn-small selectModalLayoutActionDo span2" type="button">Do it</button>
+                    <button class="btn btn-small selectModalLayoutActionCancel span2" type="button">Cancel</button>
+                  </div>
+                </fieldset>
+
+                <fieldset>
+                  <legend><small class="selectModalMeasuresLegendTitle">Measures</small></legend>
+                  <div class="controls controls-row">
+                    <label class="span2" for="segmentsTreeMeasuresModalCategories">Category:</label>
+                    <select id="segmentsTreeMeasuresModalCategories" class="selectModalCategoriesSelect span10"></select>
+                  </div>
+                  <div class="controls controls-row">
+                    <label class="span2">Measures:</label>
+                    <div id="segmentsTreeMeasuresModalMeasures" class="selectModalMeasuresCntr span10"></div>
+                  </div>
+                  <div>
+                    <span class="help-block selectModalMeasuresSelectionInfo pull-right">{0} measures; {1} selected</span>
+                    <span id="segmentsTreeMeasuresModalSelectAllOrNoneCntr" class="pull-right">
+                      <span>Select:</span>
+                      <button class="btn btn-mini selectModalSelectAllMeasures" type="button">All</button>
+                      <button class="btn btn-mini selectModalSelectNoMeasures" type="button">None</button>
+                    </span>
+                  </div>
+                </fieldset>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+            </div>
+          </div>
+
+          <form id="segmentsTreeQueryForm" class="form-horizontal hide well">
+            <div class="control-group">
+              <label class="control-label">Time periods:</label>
+              <div id="segmentsTreeTimePeriodsCntr" class="controls">
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">Include:</label>
+              <div class="controls">
+                <label class="radio inline">
+                  <input id="segmentsTreeQueryIncludeChildSegments" type="radio" name="includeRadios" value="childSegments" checked />
+                  Child Segments
+                </label>
+                <label class="radio inline">
+                  <input id="segmentsTreeQueryIncludeSecurities" type="radio" name="includeRadios" value="securities" />
+                  Securities
+                </label>
+                <label class="radio inline">
+                  <input id="segmentsTreeQueryIncludeNone" type="radio" name="includeRadios" value="none" />
+                  None
+                </label>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">Measures:</label>
+              <div class="controls">
+                <div id="segmentsTreeQueryMeasuresBtnGroup" class="btn-group">
+                  <button id="segmentsTreeQueryMeasuresBtn" class="btn dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li class="divider"></li>
+                    <li><a id="segmentsTreeQueryEditMeasures" href="#">Edit...</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">Include measures for:</label>
+              <div class="controls">
+                <label class="checkbox inline">
+                  <input type="checkbox" name="includeForSegment" value="includeForSegment" checked />
+                  Segment
+                </label>
+                <label class="checkbox inline">
+                  <input type="checkbox" name="includeForChildSegments" value="includeForChildSegments" checked />
+                  Child Segments
+                </label>
+                <label class="checkbox inline">
+                  <input type="checkbox" name="includeForSecurities" value="includeForSecurities" checked />
+                  Securities
+                </label>
+              </div>
+            </div>
+            <div id="segmentsTreeQueryFormActions" class="form-actions">
+              <button id="segmentsTreeQuerySubmit" type="submit" class="btn btn-primary">Get Total Segment</button>
+            </div>
+          </form>
+
+          <div id="segmentsTreeResults" class="hide">
+            <div id="segmentsTreeResultsExportCntr">
+            </div>
+            <ul id="segmentsTreeResultsBreadcrumb" class="breadcrumb">
+            </ul>
+            <div id="segmentsTreeResultsTableCntr">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="timeSeriesPane" class="tab-pane">
+        <h4 id="timeSeriesPortfolioLabel" class="muted">Portfolio:</h4>
+        <div id="timeSeriesView">
+          <div id="timeSeriesNoResults">
+          </div>
+
+          <form id="timeSeriesQueryForm" class="form-horizontal hide well">
+            <div class="control-group">
+              <label class="control-label" for="timeSeriesSegmentSelect">Segment:</label>
+              <div class="controls">
+                <select id="timeSeriesSegmentSelect" name="timeSeriesSegmentSelect" class="span6"></select>
+                <span class="help-block">more segments are made available by getting results from the Segments Tree</span>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="timeSeriesTypeSelect">Type:</label>
+              <div class="controls">
+                <select id="timeSeriesTypeSelect" name="timeSeriesTypeSelect" class="span6">
+                  <option value="raw">Raw</option>
+                  <option value="cumulativeIndexed">Cumulative Indexed</option>
+                </select>
+              </div>
+            </div>
+            <div id="timeSeriesMeasuresControlGroup" class="control-group">
+              <label class="control-label" for="timeSeriesMeasuresSelect">Measures:</label>
+              <div class="controls">
+                <select id="timeSeriesMeasuresSelect" name="timeSeriesMeasuresSelect" multiple="multiple" class="span6"></select>
+                <span class="help-block">ctrl+click to select at least one</span>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="timeSeriesStartDateInput">Start date:</label>
+              <div class="controls">
+                <div id="timeSeriesStartDatePicker" class="input-append span12">
+                  <input id="timeSeriesStartDateInput" name="timeSeriesStartDateInput" data-format="yyyy-MM-dd" type="text" class="span6" />
+                  <span class="add-on">
+                    <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="timeSeriesEndDateInput">End date:</label>
+              <div class="controls">
+                <div id="timeSeriesEndDatePicker" class="input-append span12">
+                  <input id="timeSeriesEndDateInput" name="timeSeriesEndDateInput" data-format="yyyy-MM-dd" type="text" class="span6" />
+                  <span class="add-on">
+                    <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div id="timeSeriesQueryFormActions" class="form-actions">
+              <button id="timeSeriesQuerySubmit" type="submit" class="btn btn-primary">Get Time Series</button>
+            </div>
+          </form>
+
+          <div id="timeSeriesResults">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+@* Portfolio Analysis - Status Properties table HTML template *@
+<script id="analysisStatusPropertiesTableTemplate" type="text/template">
+<table id="analysisStatusPropertiesTable" class="table table-striped table-bordered table-condensed table-hover">
+  <colgroup>
+    <col span="1" style="width: 40%;">
+    <col span="1" style="width: 60%;">
+  </colgroup>
+  <thead>
+    <tr>
+      <th style="text-align:center" colspan="2">
+        <span>Analysis Status</span>
+      </th>
+    </tr>
+    <tr>
+      <th>Property</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Status</td>
+      <td><%- status %></td>
+    </tr>
+    <%
+    if (resultsTimeStamp) { %>
+      <tr>
+        <td>Results Timestamp</td>
+        <td><%- resultsTimeStamp %></td>
+      </tr>
+    <% }
+    %>
+    <% _.each(errors, function(error) { %>
+      <tr>
+        <td>Error</td>
+        <td><%- error %></td>
+      </tr>
+    <% }); %>
+    <% _.each(messages, function(msg) { %>
+      <tr>
+        <td>Message</td>
+        <td><%- msg %></td>
+      </tr>
+    <% }); %>
+  </tbody>
+</table>
+</script>
+
+
+@* Portfolio Analysis - Portfolio Properties table HTML template *@
+<script id="analysisPortfolioPropertiesTableTemplate" type="text/template">
+<table id="analysisPortfolioPropertiesTable" class="table table-striped table-bordered table-condensed table-hover">
+  <colgroup>
+    <col span="1" style="width: 40%;">
+    <col span="1" style="width: 60%;">
+  </colgroup>
+  <thead>
+    <tr>
+      <th style="text-align:center" colspan="2">
+        <span>Portfolio Properties</span>
+      </th>
+    </tr>
+    <tr>
+      <th>Property</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Name</td>
+      <td><%- name %></td>
+    </tr>
+    <tr>
+      <td>Id</td>
+      <td><%- id %></td>
+    </tr>
+    <tr>
+      <td>Code</td>
+      <td><%- code %></td>
+    </tr>
+    <tr>
+      <td>Owner</td>
+      <td><%- owner %></td>
+    </tr>
+    <tr>
+      <td>Portfolio Type</td>
+      <td><%- portfolioType %></td>
+    </tr>
+    <tr>
+      <td>InvestmentType</td>
+      <td><%- investmentType %></td>
+    </tr>
+  </tbody>
+</table>
+</script>
+
+
+@* Portfolio Analysis - Analysis Properties table HTML template *@
+<script id="analysisAnalysisPropertiesTableTemplate" type="text/template">
+<table id="analysisAnalysisPropertiesTable" class="table table-striped table-bordered table-condensed table-hover">
+  <colgroup>
+    <col span="1" style="width: 40%;">
+    <col span="1" style="width: 60%;">
+  </colgroup>
+  <thead>
+    <tr>
+      <th style="text-align:center" colspan="2">
+        <span>Analysis Properties</span>
+      </th>
+    </tr>
+    <tr>
+      <th>Property</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Is Default Analysis</td>
+      <td><%- isDefault %></td>
+    </tr>
+    <tr>
+      <td>Version</td>
+      <td><%- version %></td>
+    </tr>
+    <tr>
+      <td>Currency</td>
+      <td><%- currency %></td>
+    </tr>
+    <tr>
+      <td>Statistics Frequency</td>
+      <td><%- statsFrequency %></td>
+    </tr>
+    <tr>
+      <td>Risk Horizon</td>
+      <td><%- riskHorizon %></td>
+    </tr>
+    <tr>
+      <td>Risk Percentile</td>
+      <td><%- riskPercentile %></td>
+    </tr>
+    <% 
+    if (!benchmarks || benchmarks.length === 0) { %>
+      <tr>
+        <td>Benchmark</td>
+        <td>--</td>
+      </tr>
+    <% } else {
+      _.each(benchmarks, function(benchmark) { %> 
+        <tr>
+          <td>Benchmark</td>
+          <td><% print(_.escape(benchmark.name + " [type = " + benchmark.type + "]")) %></td>
+        </tr>
+      <% });
+    }
+    %>
+    <tr>
+      <td>Risk Free Rate</td>
+      <td><%- riskFreeRateName || "--" %></td>
+    </tr>
+    <tr>
+      <td>Classifier 1</td>
+      <td><%- classifier1Name || "--" %></td>
+    </tr>
+    <tr>
+      <td>Classifier 2</td>
+      <td><%- classifier2Name || "--" %></td>
+    </tr>
+    <tr>
+      <td>Classifier 3</td>
+      <td><%- classifier3Name || "--" %></td>
+    </tr>
+    <tr>
+      <td>Fixed Income Classifier 2</td>
+      <td><%- fixedIncomeClassifier2Name || "--" %></td>
+    </tr>
+    <tr>
+      <td>Fixed Income Classifier 3</td>
+      <td><%- fixedIncomeClassifier3Name || "--" %></td>
+    </tr>
+  </tbody>
+</table>
+</script>
+
+
+@* Portfolio Analysis - Results' Time Periods table HTML template *@
+<script id="analysisResultsTimePeriodsTableTemplate" type="text/template">
+<table id="analysisResultsTimePeriodsTable" class="table table-striped table-bordered table-condensed table-hover">
+  <colgroup>
+    <col span="1" style="width: 20%;">
+    <col span="1" style="width: 20%;">
+    <col span="1" style="width: 30%;">
+    <col span="1" style="width: 30%;">
+  </colgroup>
+  <thead>
+    <tr>
+      <th style="text-align:center" colspan="4">
+        <span>Results Time Periods</span>
+      </th>
+    </tr>
+    <tr>
+      <th>Name</th>
+      <th>Code</th>
+      <th>Start Date</th>
+      <th>End Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% _.each(timePeriods, function(tp) { %>
+      <tr>
+        <td><%- tp.name %></td>
+        <td><%- tp.code %></td>
+        <td><%- tp.startDate.format("ddd MMM D YYYY") %></td>
+        <td><%- tp.endDate.format("ddd MMM D YYYY") %></td>
+      </tr>
+    <% }); %>
+  </tbody>
+</table>
+</script>
+
+
+@* Portfolio Analysis - Get Last Successful Analysis HTML template *@
+<script id="getLastSuccessfulAnalysisTemplate" type="text/template">
+<div id="getLastSuccessfulAnalysisPanel">
+  <p class="lead">
+    <span>The latest analysis hasn't finished.  Get the last successful analysis (if available)? </span>
+    <button id="getLastSuccessfulAnalysisBtn" class="btn btn-primary btn-small" type="button">Get Last Successful</button>
+  </p>
+</div>
+</script>
+
+
+@* Segments Tree Node - Results table HTML template *@
+@* (The 'header', 'tooltips', 'segment' and 'children' data is expected to be HTML-escaped, so we don't double
+    escape it.  I.e we use <%= instead of <%- .) *@
+<script id="segmentsTreeResultsTableTemplate" type="text/template">
+<table id="segmentsTreeResultsTable" class="table table-striped table-bordered table-condensed table-hover">
+  <thead>
+    <tr>
+      <th style="text-align:left" colspan="<%= header.length %>">
+        <span><%- title %></span>
+      </th>
+    </tr>
+    <tr>
+    <% _.each(header, function(hdr, idx) { %>
+      <% var tt = tooltips[idx]; if (tt) { %>
+      <th><a href="#" data-toggle="tooltip" title="<%= tt %>"><%= hdr %></a></th>
+      <% } else { %>
+      <th><%= hdr %></th>
+      <% } %>
+    <% }); %>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <% _.each(segment, function(data) { %>
+      <td><%= data %></td>
+    <% }); %>
+    </tr>
+    <% _.each(children, function(child) { %>
+    <tr>
+      <% _.each(child, function(data) { %>
+      <td><%= data %></td>
+      <% }); %>
+    </tr>
+    <% }); %>
+  </tbody>
+</table>
+</script>
+
+
+@* Time Series - Results Properties table HTML template *@
+<script id="timeSeriesResultsPropertiesTableTemplate" type="text/template">
+<table id="timeSeriesResultsPropertiesTable" class="table table-striped table-bordered table-condensed table-hover">
+  <thead>
+    <tr>
+      <th style="text-align:center" colspan="2">
+        <span>Time Series Properties</span>
+      </th>
+    </tr>
+    <tr>
+      <th>Property</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Segment</td>
+      <td><%- segmentName %></td>
+    </tr>
+    <tr>
+      <td>Classifier</td>
+      <td><%- classifierName || "--" %></td>
+    </tr>
+    <tr>
+      <td>Series Type</td>
+      <td><%- seriesType %></td>
+    </tr>
+    <tr>
+      <td>Start Date</td>
+      <td><%- startDate.format("ddd MMM D YYYY") %></td>
+    </tr>
+    <tr>
+      <td>End Date</td>
+      <td><%- endDate.format("ddd MMM D YYYY") %></td>
+    </tr>
+    <tr>
+      <td>Data Points Type</td>
+      <td><%- dataPointsType %></td>
+    </tr>
+  </tbody>
+</table>
+</script>
+
+
+@* Time Series - Data Points table HTML template *@
+<script id="timeSeriesDataPointsTableTemplate" type="text/template">
+<table id="timeSeriesDataPointsTable" class="table table-striped table-bordered table-condensed table-hover">
+  <thead>
+    <tr>
+      <th style="text-align:center" colspan="<%= numColumns %>">
+        <span>Time Series Data Points</span>
+      </th>
+    </tr>
+    <tr>
+    <% if (!periodic) { %>
+      <th>Date</th>
+    <% } else { %>
+      <th>Start Date</th>
+      <th>End Date</th>
+    <% } %>
+    <% _.each(measureIds, function(id, index) { %>
+      <th>
+       <a href="#" data-toggle="tooltip" title="<%- measureNames[index] %>"><%- id %></a>
+      </th>
+    <% }); %>
+    </tr>
+  </thead>
+  <tbody>
+    <% _.each(items, function(item) { %>
+    <tr>
+      <% if (!periodic) { %>
+      <td><%- item.d.format("MMM D YYYY") %></td>
+      <% } else { %>
+      <td><%- item.s.format("MMM D YYYY") %></td>
+      <td><%- item.e.format("MMM D YYYY") %></td>
+      <% } %>
+      <% _.each(item.m, function(m) { %>
+      <% if (m === null) { %>
+      <td></td>
+      <% } else { %>
+      <td><%- m.toFixed(5) %></td>
+      <% } %>
+      <% }); %>
+    </tr> 
+    <% }); %>
+  </tbody>
+</table>
+</script>
+
+
+@* Set up our JavaScript's global object ("revWebApi") with:-
+      - URIs of actions available to the JavaScript
+      - information about the user
+ *@
+<script type="text/javascript">
+  var revWebApi = revWebApi || {};
+  revWebApi.actionUris = {
+    logOnOff: "@Url.Action("LogOnOff", "Home")",
+    getWebApiResource: "@Url.Action("GetResource", "WebApi")",
+    getSegmentsTreeNodeMeasures: "@Url.Action("GetSegmentsTreeNodeMeasures", "WebApi")",
+    exportSegmentsTreeNodeAsCsv: "@VirtualPathUtility.ToAbsolute("~/WebApi/ExportSegmentsTreeNodeAsCsv/{cachedResourceId}/{portfolioName}/{resultsTimestamp}/{currency}/{statsFrequency}/{culture}")",
+    exportTimeSeriesAsCsv: "@VirtualPathUtility.ToAbsolute("~/WebApi/ExportTimeSeriesAsCsv/{cachedResourceId}/{portfolioName}/{resultsTimestamp}/{currency}/{classifier}/{culture}")",
+    getExportCultures: "@Url.Action("GetExportCultures", "Home")"
+  };
+  @if (!Model.isLoggedOn) {
+    @:revWebApi.userInfo = { isLoggedOn: false, displayName: '', preferredLanguage: '@Model.preferredLanguage' };
+  } else {
+    @:revWebApi.userInfo = { isLoggedOn: true, displayName: '@Model.displayName', preferredLanguage: '@Model.preferredLanguage' };
+  }
+</script>
+
+@* Include Js libraries, in order.
+   NOTE: Scripts that define globals (jQuery, Backbone, Underscore mainly) are "defined" via the scripts in folder
+   Scripts/App/LibRefs instead of being shimmed in the requireJs config.  That's because I want the 'static file
+   version number' URL arg (which exists in production builds) to be applied only to the app's scripts and not
+   to library scripts.  The library scripts have their own version numbers.
+
+   We could load certain scripts from CDN (e.g. jQuery), but then you've got to worry about fallback, and then
+   you have to worry about the fallback scripts being loaded out of order.  It can get messy.  Something to
+   finesse later, maybe.
+ *@
+<script src="~/Scripts/Libs/json2-20121008.min.js"></script>
+<script src="~/Scripts/Libs/jquery-1.9.1.min.js"></script>
+<script src="~/Bootstrap-2-3-1/js/bootstrap.min.js"></script>
+<script src="~/Scripts/Libs/bootstrap-datetimepicker-2012.min.js"></script>
+<script src="~/Scripts/Libs/jquery.blockUI-2.57.0.js"></script>
+<script src="~/Scripts/Libs/underscore-1.4.4.min.js"></script>
+<script src="~/Scripts/Libs/backbone-1.0.0.min.js"></script>
+<script src="~/Scripts/Libs/jstorage-0.4.3.min.js"></script>
+<script src="~/Scripts/Libs/moment-2.0.0.min.js"></script>
+
+@* requireJs configuration, defined in global 'require' before loading the requireJs library *@
+<script type="text/javascript">
+  // Configuration:-
+  //   - urlArgs = extra query string arguments appended to URLs; we add our static file version number
+  var require = {
+    urlArgs: "v=@ViewBag.Sfvn"
+  };
+</script>
+
+@* Application JavaScript included via require.js *@
+@if (!ViewBag.UseOptimizedJs) {
+  <script data-main="@VirtualPathUtility.ToAbsolute("~/Scripts/App/Main")" src="~/Scripts/Libs/require-2.1.5.min.js"></script>
+} else {
+  <script data-main="@VirtualPathUtility.ToAbsolute("~/Build/main-built")" src="~/Scripts/Libs/require-2.1.5.min.js"></script>
+}
+

@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="icon" type="image/png" href="~/Images/favicon.ico" />
+    <!--[if IE]>
+    <link rel="shortcut icon" href="~/Images/favicon.ico" type="image/vnd.microsoft.icon" />
+    <![endif]-->
+
+    <title>StatPro Revolution Web API Explorer - @ViewBag.Title</title>
+
+    @* Bootstrap CSS *@
+    <link href="~/Bootstrap-2-3-1/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+
+    @* Datetime picker CSS *@
+    <link href="~/Css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen" type="text/css" />
+
+    @* Our CSS *@
+    <link href="~/Css/Site.css?v=@ViewBag.Sfvn" rel="stylesheet" media="screen" type="text/css" />
+  </head>
+
+  <body>
+    <div id="siteContainer">
+      <div class="container-fluid">
+
+        <div id="header" class="row-fluid">
+      	  <div id="headerLogo" class="span3">
+      		  <img src="~/Images/revolution-webapi-logo.png" width="310" height="53" alt="Web API" />
+      	  </div>        
+          <div id="revolution-links" class="span9">
+            <a href="https://revolution.statpro.com" target="_blank" title="Visit the StatPro Revolution website">StatPro Revolution</a>
+             | 
+            <a href="http://www.statpro.com" target="_blank" title="Visit the StatPro website">StatPro.com</a>
+          </div>
+        </div>
+
+        <div id="contentRow" class="row-fluid">
+          <div id="content" class="span12">
+            @RenderBody()
+          </div>
+        </div>
+      </div>
+
+ 	    <div id="footer" class="clearfix">
+ 		    <div class="container-fluid">
+			    <p class="pull-left"><small>
+            Developers, please see the <a href="http://developer.statpro.com/Revolution/WebApi/Intro" target="_blank">
+              Revolution Web API developer documentation</a>
+            </small></p>
+			    <p class="pull-right"><small>
+            &copy; @DateTime.Now.Year StatPro International SARL – a member of StatPro Group plc
+            </small></p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

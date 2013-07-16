@@ -1,0 +1,318 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{AE45AD14-20DD-451E-AD4E-93CDF458525A}</ProjectGuid>
+    <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>StatPro.Revolution.WebApiExplorer</RootNamespace>
+    <AssemblyName>StatPro.Revolution.WebApiExplorer</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <CodeAnalysisRuleSet>WebApiExplorerRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.ApplicationServer.Caching.Client">
+      <HintPath>..\packages\ServerAppFabric.Client.1.1.2106\lib\Microsoft.ApplicationServer.Caching.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationServer.Caching.Core">
+      <HintPath>..\packages\ServerAppFabric.Client.1.1.2106\lib\Microsoft.ApplicationServer.Caching.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject">
+      <HintPath>..\packages\Ninject.3.0.1.10\lib\net45-full\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog">
+      <HintPath>..\packages\NLog.2.0.1.2\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Data.Services.Client" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.20710.0\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.20710.0\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_GlobalResources\Shared.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Shared.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Code\ActionFilters.cs" />
+    <Compile Include="Code\ControllerFactory.cs" />
+    <Compile Include="Code\CsvActionResult.cs" />
+    <Compile Include="Code\Decoupling\Implementations\AppSettingsAccess.cs" />
+    <Compile Include="Code\Decoupling\Implementations\GlobalStateAccess.cs" />
+    <Compile Include="Code\Decoupling\Implementations\WebsiteLogging.cs" />
+    <Compile Include="Code\Decoupling\Implementations\OAuth2ServerAccess.cs" />
+    <Compile Include="Code\Decoupling\Implementations\ResourcesAccess.cs" />
+    <Compile Include="Code\Decoupling\Implementations\SessionStateAccess.cs" />
+    <Compile Include="Code\Decoupling\Implementations\WebApiAccess.cs" />
+    <Compile Include="Code\Decoupling\Interfaces\IAppSettingsAccess.cs" />
+    <Compile Include="Code\Decoupling\Interfaces\IGlobalStateAccess.cs" />
+    <Compile Include="Code\Decoupling\Interfaces\ILogging.cs" />
+    <Compile Include="Code\Decoupling\Interfaces\IOAuth2ServerAccess.cs" />
+    <Compile Include="Code\Decoupling\Interfaces\IResourcesAccesss.cs" />
+    <Compile Include="Code\Decoupling\Interfaces\ISessionStateAccess.cs" />
+    <Compile Include="Code\Decoupling\Interfaces\IWebApiAccess.cs" />
+    <Compile Include="Code\Enums.cs" />
+    <Compile Include="Code\Exceptions.cs" />
+    <Compile Include="Code\ExtensionMethods.cs" />
+    <Compile Include="Code\JsonResultTData.cs" />
+    <Compile Include="Models\MeasureInfo.cs" />
+    <Compile Include="Models\SegmentsTreeNode.cs" />
+    <Compile Include="Models\UserData.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\OAuth2Controller.cs" />
+    <Compile Include="Controllers\WebApiController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="JavaScriptDtos\Culture.cs" />
+    <Compile Include="JavaScriptDtos\LogOnOffResult.cs" />
+    <Compile Include="JavaScriptDtos\MeasureInfo.cs" />
+    <Compile Include="JavaScriptDtos\Measures.cs" />
+    <Compile Include="JavaScriptDtos\UserInfo.cs" />
+    <Compile Include="JavaScriptDtos\WebApiResourceResult.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Bootstrap-2-3-1\css\bootstrap-responsive.css" />
+    <Content Include="Bootstrap-2-3-1\css\bootstrap-responsive.min.css" />
+    <Content Include="Bootstrap-2-3-1\css\bootstrap.css" />
+    <Content Include="Bootstrap-2-3-1\css\bootstrap.min.css" />
+    <Content Include="Bootstrap-2-3-1\img\glyphicons-halflings-white.png" />
+    <Content Include="Bootstrap-2-3-1\img\glyphicons-halflings.png" />
+    <Content Include="Bootstrap-2-3-1\js\bootstrap.js" />
+    <Content Include="Bootstrap-2-3-1\js\bootstrap.min.js" />
+    <None Include="Build\build.js" />
+    <Content Include="Build\main-built.js" />
+    <None Include="Build\r.js" />
+    <None Include="Build\Readme.txt" />
+    <Content Include="Css\bootstrap-datetimepicker.min.css" />
+    <Content Include="Css\Site.css" />
+    <Content Include="Global.asax" />
+    <Content Include="Images\favicon.ico" />
+    <Content Include="Images\header.png" />
+    <Content Include="Images\revolution-webapi-logo.png" />
+    <Content Include="Images\texture.jpg" />
+    <Content Include="robots.txt" />
+    <Content Include="Scripts\App\Collections\CultureCollection.js" />
+    <Content Include="Scripts\App\Collections\MeasureCollection.js" />
+    <Content Include="Scripts\App\Collections\MeasureLayoutCollection.js" />
+    <Content Include="Scripts\App\Collections\PortfolioCollection.js" />
+    <Content Include="Scripts\App\Collections\SegmentsTreeNodeCollection.js" />
+    <Content Include="Scripts\App\Components\PagedTable.js" />
+    <Content Include="Scripts\App\Helpers\GetWebApiResource.js" />
+    <Content Include="Scripts\App\Helpers\Functions.js" />
+    <Content Include="Scripts\App\Instances\LocallyStoredData.js" />
+    <Content Include="Scripts\App\Instances\RevWebApi.js" />
+    <Content Include="Scripts\App\Instances\WebApiData.js" />
+    <Content Include="Scripts\App\LibRefs\Backbone.js" />
+    <Content Include="Scripts\App\LibRefs\jQuery.js" />
+    <Content Include="Scripts\App\LibRefs\moment.js" />
+    <Content Include="Scripts\App\LibRefs\Underscore.js" />
+    <Content Include="Scripts\App\Models\AnalysisModel.js" />
+    <Content Include="Scripts\App\Models\CultureModel.js" />
+    <Content Include="Scripts\App\Models\LocallyStoredDataModel.js" />
+    <Content Include="Scripts\App\Models\MeasureModel.js" />
+    <Content Include="Scripts\App\Models\MeasuresInfoModel.js" />
+    <Content Include="Scripts\App\Models\MeasureLayoutModel.js" />
+    <Content Include="Scripts\App\Models\PortfolioModel.js" />
+    <Content Include="Scripts\App\Models\PortfoliosInfoModel.js" />
+    <Content Include="Scripts\App\Models\SegmentsTreeNodeModel.js" />
+    <Content Include="Scripts\App\Models\SegmentsTreeResultsModel.js" />
+    <Content Include="Scripts\App\Models\TimeSeriesResultsModel.js" />
+    <Content Include="Scripts\App\Models\WebApiDataModel.js" />
+    <Content Include="Scripts\App\Views\AnalysisView.js" />
+    <Content Include="Scripts\App\Views\ExportCulturesSelectView.js" />
+    <Content Include="Scripts\App\Views\LogOnOffView.js" />
+    <Content Include="Scripts\App\Views\PortfoliosGridView.js" />
+    <Content Include="Scripts\App\Views\SegmentsTreeQueryView.js" />
+    <Content Include="Scripts\App\Views\SegmentsTreeResultsView.js" />
+    <Content Include="Scripts\App\Views\SegmentsTreeView.js" />
+    <Content Include="Scripts\App\Views\SelectMeasuresModalView.js" />
+    <Content Include="Scripts\App\Views\TabsView.js" />
+    <Content Include="Scripts\App\Views\TimeSeriesQueryView.js" />
+    <Content Include="Scripts\App\Views\TimeSeriesResultsView.js" />
+    <Content Include="Scripts\App\Views\TimeSeriesView.js" />
+    <Content Include="Scripts\Libs\backbone-1.0.0.min.js" />
+    <Content Include="Scripts\Libs\bootstrap-datetimepicker-2012.min.js" />
+    <Content Include="Scripts\Libs\jquery-1.9.1.min.js" />
+    <Content Include="Scripts\Libs\jquery.blockUI-2.57.0.js" />
+    <Content Include="Scripts\Libs\json2-20121008.min.js" />
+    <Content Include="Scripts\Libs\jstorage-0.4.3.min.js" />
+    <Content Include="Scripts\Libs\moment-2.0.0.min.js" />
+    <Content Include="Scripts\Libs\require-2.1.5.min.js" />
+    <Content Include="Scripts\Libs\underscore-1.4.4.min.js" />
+    <Content Include="Scripts\App\Main.js" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\Shared.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Shared.Designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="NLog.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ApiExplorerKey.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\OAuth2\ReceiveAuthCode.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="WebApiExplorerRules.ruleset">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\PublishProfiles\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>ApiExplorerKey.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>62347</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:49534/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

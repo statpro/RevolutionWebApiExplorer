@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "Authorization";
+}
+
+<h2>StatPro Revolution Web API Explorer</h2>
+
+<p class="text-error">
+  @if (ViewBag.Error) {
+    @ViewBag.ErrorMessage
+  }
+</p>
+  
+<p><a href="@Url.Action("Index", "Home")">Continue</a></p>
+
