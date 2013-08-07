@@ -673,9 +673,6 @@ namespace StatPro.Revolution.WebApiExplorer.Controllers
                 case "application/vnd.statpro.revolution.api.service":
                     return "service";
 
-                case "application/vnd.statpro.revolution.api.eula":
-                    return "eula";
-
                 case "application/vnd.statpro.revolution.api.portfolios":
                     return "portfolios";
 

@@ -39,8 +39,9 @@ namespace StatPro.Revolution.WebApiExplorerTests.CodeTests
         [TestCase("", "", null, null)]
         [TestCase(" ", " ", null, null)]
         [TestCase("Bad Request", "Bad Request", null, null)]
-        [TestCase("The specified EULA identifier is too long. (REVAPI_ERROR=800)",
-                  "The specified EULA identifier is too long.", WebApiErrorCode.EulaIdentifierTooLong, null)]
+        [TestCase("The value of the portfolios $filter query string is too long. (REVAPI_ERROR=801)",
+                  "The value of the portfolios $filter query string is too long.",
+                   WebApiErrorCode.PortfoliosFilterStringTooLong, null)]
         [TestCase("Unrecognised message. (REVAPI_ERROR=100)",
                   "Unrecognised message.", null, 100)]
         [TestCase("Close, but no cigar.(REVAPI_ERROR=100)",

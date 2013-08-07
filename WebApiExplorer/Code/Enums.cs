@@ -18,7 +18,7 @@ namespace StatPro.Revolution.WebApiExplorer
         Justification = "The error codes start at 800.")]
     public enum WebApiErrorCode
     {
-        EulaIdentifierTooLong = 800,
+        // 800 is no longer used
 
         PortfoliosFilterStringTooLong = 801,
 
@@ -88,9 +88,9 @@ namespace StatPro.Revolution.WebApiExplorer
 
         ValueOutOfRange = 834,
 
-        EulaNotFoundOrNotLatest = 835,
+        // 835 is no longer used
 
-        EulaNotAccepted = 836,
+        // 836 is no longer used
 
         InvalidFiltering = 837,
 

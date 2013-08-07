@@ -50,7 +50,6 @@ namespace StatPro.Revolution.WebApiExplorer.JsDtos
 
         // Contains the type of the resource; will be one of:-
         //   "service"
-        //   "eula"
         //   "portfolios"
         //   "portfolioAnalysis"
         //   "segmentsTreeNode"
