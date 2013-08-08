@@ -72,7 +72,7 @@ The Web API Explorer does not surface every single feature of the Revolution Web
 
 # License #
 
-Copyright (c) 2013 StatPro International SARL - a member of StatPro Group plc
+(c) Copyright 2013 StatPro S.A. - a member of StatPro Group plc
 
 <p>Permission is hereby granted, free of charge, to any person obtaining a copy<br />
 of this software and associated documentation files (the "Software"), to deal<br />
