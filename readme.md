@@ -24,7 +24,7 @@ For more information:-
 * [Revolution Web API](http://developer.statpro.com/Revolution/WebApi/Intro)
 * [Revolution OAuth2 Server](http://developer.statpro.com/Revolution/WebApi/Authorization/Overview)
 * [Registering your own application](http://developer.statpro.com/Revolution/WebApi/Authorization/Registration)
-* [Revolution OAuth2 application workflow](http://developer.statpro.com/Revolution/WebApi/Authorization/Workflow)
+* [Server-Side Web applications](http://developer.statpro.com/Revolution/WebApi/Authorization/ServerSideWebApps)
 * [OAuth 2.0](http://tools.ietf.org/html/rfc6749)
 * [OAuth 2.0 Threat Model and Security Considerations](http://tools.ietf.org/html/rfc6819)
 * [Revolution Web API and OAuth2 Support](mailto:webapisupport@statpro.com)
@@ -39,9 +39,9 @@ The application's source code shows developers how to:-
 * get [portfolios](http://developer.statpro.com/Revolution/WebApi/Resource/Portfolios), [analysis](http://developer.statpro.com/Revolution/WebApi/Resource/PortfolioAnalysis) and results data from the Web API
 * detect if the Web API has returned one of its [specific errors](http://developer.statpro.com/Revolution/WebApi/Intro#statusCodes)
 * detect request blockage by the Web API due to a [Fair Usage Policy violation](http://developer.statpro.com/Revolution/WebApi/FairUsagePolicy)
-* detect if the Web API has [rejected the access token because it has expired](http://developer.statpro.com/Revolution/WebApi/Authorization/Workflow#step4)
-* get a [new access token from a refresh token](http://developer.statpro.com/Revolution/WebApi/Authorization/Workflow#step5)
-* [re-prompt the user for access](http://developer.statpro.com/Revolution/WebApi/Authorization/Workflow#step1) if getting an access token from a refresh token fails
+* detect if the Web API has [rejected the access token because it has expired](http://developer.statpro.com/Revolution/WebApi/Authorization/ServerSideWebApps#step5)
+* get a [new access token from a refresh token](http://developer.statpro.com/Revolution/WebApi/Authorization/ServerSideWebApps#step5)
+* [re-prompt the user for access](http://developer.statpro.com/Revolution/WebApi/Authorization/ServerSideWebApps#step1) if getting an access token from a refresh token fails
 * get [requestable analytics measures](http://developer.statpro.com/Revolution/WebApi/Intro#measures) programmatically, in XML format.
 
 
