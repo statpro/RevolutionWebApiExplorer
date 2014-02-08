@@ -103,8 +103,12 @@ namespace StatPro.Revolution.WebApiExplorer
         {
             var appSettings = _ninKernel.Get<IAppSettingsAccess>();
             var logging = _ninKernel.Get<ILogging>();
-            GlobalStateAccess.Init(new Uri(appSettings.WebApiSegmentsTreeMeasuresUri), 
-                appSettings.ExportCultureNames, logging);
+
+            GlobalStateAccess.Init(
+                new Uri(appSettings.WebApiSegmentsTreeMeasuresUri),
+                new Uri(appSettings.WebApiTimeSeriesMeasuresUri),
+                appSettings.ExportCultureNames,
+                logging);
         }
     }
 }

@@ -98,6 +98,26 @@ Viewport styles
     margin-bottom: 0px;
 }
 
+#timeSeriesQueryMeasuresBtnGroup {
+    margin-bottom: 10px;
+}
+
+
+/* 
+------------------------------
+Segments Tree / Time Series Modal styles
+------------------------------ 
+ */
+
+.selectModalMeasuresCntr label {
+    margin-bottom: 0px;
+}
+
+.selectModalMeasuresSelectionInfo {
+    min-width: 180px;
+    text-align: right;
+}
+
 
 /* 
 ------------------------------
@@ -127,17 +147,41 @@ Segments Tree Modal styles
     margin-bottom: 6px;
 }
 
-.selectModalMeasuresCntr label {
-    margin-bottom: 0px;
-}
-
 #segmentsTreeMeasuresModalSelectAllOrNoneCntr {
     margin-right: 130px;
 }
 
-.selectModalMeasuresSelectionInfo {
-    min-width: 180px;
-    text-align: right;
+
+/* 
+------------------------------
+Time Series Modal styles
+------------------------------ 
+ */
+
+#timeSeriesMeasuresModal .modal-body {
+    max-height: none;
+}
+
+#timeSeriesMeasuresModal .modal-body form {
+    margin-bottom: 0px;
+}
+
+#timeSeriesMeasuresModal legend {
+    line-height: 30px;
+}
+
+#timeSeriesMeasuresModalMeasures {
+    height: 162px;
+    overflow: auto;
+    border: 1px solid #dddddd;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    margin-bottom: 6px;
+}
+
+#timeSeriesMeasuresModalSelectAllOrNoneCntr {
+    margin-right: 130px;
 }
 
 

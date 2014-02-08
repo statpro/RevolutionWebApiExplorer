@@ -24,6 +24,7 @@
 //       logOnOff: "<uri>",
 //       getWebApiResource: "<uri>",
 //       getSegmentsTreeNodeMeasures: "<uri>",
+//       getTimeSeriesMeasures: "<uri>",
 //       exportSegmentsTreeNodeAsCsv: "<uri>",
 //       exportTimeSeriesAsCsv: "<uri>",
 //       getExportCultures: "<uri>"
@@ -129,13 +130,17 @@ function ($, getWebApiResource, webApiData, revWebApi, locallyStoredData, Cultur
             segmentsTreeResults = new SegmentsTreeResultsModel();
             webApiData.set("segmentsTreeResults", segmentsTreeResults);
 
-            // Create and add a blank time series results model to the Web API data model.  It will be populated with
-            // data when we get back the first time series results from the server.
+            // Create and add a blank time series results model to the Web API data model.  It will be populated
+            // with data when we get back the first time series results from the server.
             timeSeriesResults = new TimeSeriesResultsModel();
             webApiData.set("timeSeriesResults", timeSeriesResults);
 
-            // Create an empty measures info model for Segments Tree Node measures, and add it to the Web API data model.
+            // Create an empty measures info model for Segments Tree Node measures, and add it to the Web API
+            // data model.
             webApiData.set("segmentsTreeMeasuresInfo", new MeasuresInfoModel());
+
+            // Create an empty measures info model for Time Series measures, and add it to the Web API data model.
+            webApiData.set("timeSeriesMeasuresInfo", new MeasuresInfoModel());
 
             // Create an empty collection of export cultures, and add it to the Web API data model.
             exportCultures = new CultureCollection();

@@ -53,6 +53,13 @@ namespace StatPro.Revolution.WebApiExplorer
         String WebApiSegmentsTreeMeasuresUri { get; }
 
         /// <summary>
+        /// Gets the Web API's URI that returns information about the requestable measures from the Time Series
+        /// resource.  By default this endpoint returns HTML.  Including request header "Accept: application/json"
+        /// will cause it to return JSON; "Accept: application/xml" causes it to return XML.
+        /// </summary>
+        String WebApiTimeSeriesMeasuresUri { get; }
+
+        /// <summary>
         /// Gets the static file version number, used to bust FireFox's aggressive caching of JavaScript, CSS etc.
         /// </summary>
         String StaticFileVersionNumber { get; }

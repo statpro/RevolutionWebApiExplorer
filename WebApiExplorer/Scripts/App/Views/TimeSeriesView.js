@@ -13,9 +13,9 @@ function (Backbone, $, webApiData, TimeSeriesQueryView, TimeSeriesResultsView) {
     // Time Series view.
     var TimeSeriesView = Backbone.View.extend({
         el: $("#timeSeriesView"),
-        model: null,                  // specify instance of AnalysisModel when creating
-        timeSeriesQueryView: null,    // our contained Time Series Query view
-        timeSeriesResultsView: null,  // our contained Time Series Results view
+        model: null,                   // specify instance of AnalysisModel when creating
+        timeSeriesQueryView: null,     // our contained Time Series Query view
+        timeSeriesResultsView: null,   // our contained Time Series Results view
         tagName: "div",
         initialize: function () {
             this.listenTo(webApiData, "change:isUserLoggedOn", this.render);
@@ -26,7 +26,8 @@ function (Backbone, $, webApiData, TimeSeriesQueryView, TimeSeriesResultsView) {
                 model: this.model
             });
             this.timeSeriesResultsView = new TimeSeriesResultsView({
-                model: webApiData.get("timeSeriesResults")
+                model: webApiData.get("timeSeriesResults"),
+                allTimeSeriesMeasures: webApiData.get("timeSeriesMeasuresInfo")
             });
         },
         render: function () {

@@ -25,6 +25,8 @@ function (Backbone, _, $, revWebApi, webApiData) {
             var el = this.$el,
                 loggedOn = this.model.get("isUserLoggedOn");
 
+            $("#userName").html(this.model.get("userDisplayName"));
+
             el.html(loggedOn ? "Log Off" : "Log On");
 
             if (loggedOn) {
@@ -32,8 +34,6 @@ function (Backbone, _, $, revWebApi, webApiData) {
             } else {
                 el.removeClass("btn-warning").addClass("btn-primary");
             }
-
-            $("#userName").html(this.model.get("userDisplayName"));
 
             return this;
         },

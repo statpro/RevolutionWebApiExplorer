@@ -9,6 +9,12 @@
     @ViewBag.ErrorMessage
   }
 </p>
+
+<p class="text-error">
+  @if (ViewBag.Error) {
+    @ViewBag.ErrorDescription
+  }
+</p>
   
 <p><a href="@Url.Action("Index", "Home")">Continue</a></p>
 

@@ -88,6 +88,16 @@ namespace StatPro.Revolution.WebApiExplorer
             }
         }
 
+        // Gets the Web API's URI that returns information about the requestable measures from the Time Series
+        // resource.
+        public String WebApiTimeSeriesMeasuresUri
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["WebApiTimeSeriesMeasuresUri"];
+            }
+        }
+
         // Gets the static file version number, used to bust FireFox's aggressive caching of JavaScript, CSS etc.
         public String StaticFileVersionNumber
         {

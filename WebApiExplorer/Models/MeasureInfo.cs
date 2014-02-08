@@ -19,6 +19,7 @@ namespace StatPro.Revolution.WebApiExplorer.Models
         //       <category>Stock Weights</category>
         //       <type>d</type>
         //       <comment></comment>
+        //       <compoundable>true|false<compoundable>               -- for Time Series resource only
         //     </measure>
         public MeasureInfo(XElement measureElement, XNamespace ns)
         {
@@ -33,6 +34,9 @@ namespace StatPro.Revolution.WebApiExplorer.Models
             Category = me.Element(ns + "category").Value;
             MeasureType = me.Element(ns + "type").Value[0];
             Comment = me.Element(ns + "comment").Value;
+
+            var compoundableElem = me.Element(ns + "compoundable");
+            Compoundable = (compoundableElem == null) ? false : (compoundableElem.Value == "true");
         }
 
         #region Properties
@@ -41,6 +45,7 @@ namespace StatPro.Revolution.WebApiExplorer.Models
         public String Category { get; set; }
         public Char MeasureType { get; set; }       // 'i' = integer, 'd' = double, 's' = string
         public String Comment { get; set; }
+        public Boolean Compoundable { get; set; }   // for Time Series resource only
         #endregion
     }
 }

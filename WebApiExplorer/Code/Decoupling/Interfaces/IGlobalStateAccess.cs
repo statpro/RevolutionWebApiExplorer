@@ -23,6 +23,17 @@ namespace StatPro.Revolution.WebApiExplorer
         ReadOnlyCollection<String> SegmentsTreeNodeMeasureCategories { get; }
 
         /// <summary>
+        /// Gets information about all the measures that can be requested for inclusion in a Time Series
+        /// resource representation.
+        /// </summary>
+        ReadOnlyCollection<MeasureInfo> TimeSeriesMeasuresInfo { get; }
+
+        /// <summary>
+        /// Gets a collection of all the named categories into which the Time Series measures fall.
+        /// </summary>
+        ReadOnlyCollection<String> TimeSeriesMeasureCategories { get; }
+
+        /// <summary>
         /// Gets a collection of all the cultures that can be used when exporting data (e.g. CSV data).
         /// </summary>
         ReadOnlyCollection<CultureInfo> ExportCultures { get; }

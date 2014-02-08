@@ -46,6 +46,7 @@ namespace StatPro.Revolution.WebApiExplorer.Controllers
 
             ViewBag.Error = false;
             ViewBag.ErrorMessage = String.Empty;
+            ViewBag.ErrorDescription = String.Empty;
 
             // We must have been supplied a 'state' query string value.
             if (String.IsNullOrWhiteSpace(state))
@@ -100,6 +101,7 @@ namespace StatPro.Revolution.WebApiExplorer.Controllers
             {
                 ViewBag.Error = true;
                 ViewBag.ErrorMessage = GetErrorMessageForAuthorizationCodeGrantError(error);
+                ViewBag.ErrorDescription = error_description ?? String.Empty;
                 return View();
             }
 

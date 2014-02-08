@@ -160,6 +160,22 @@ namespace StatPro.Revolution.WebApiExplorer.Controllers
             });
         }
 
+        // GetTimeSeriesMeasures action.  Gets information about the Time Series's requestable measures,
+        // for consumption by JavaScript.
+        [AcceptVerbs(HttpVerbs.Post)]
+        [ValidateAntiForgeryToken()]
+        public JsonResult<Measures> GetTimeSeriesMeasures()
+        {
+            var measures = GlobalState.TimeSeriesMeasuresInfo.Select(mi => new JsMeasureInfo(mi)).ToArray();
+            var categories = GlobalState.TimeSeriesMeasureCategories.ToArray();
+
+            return ToJsonResult(new Measures()
+            {
+                measures = measures,
+                categories = categories
+            });
+        }
+
         // ExportSegmentsTreeNodeAsCsv action.  Exports a segments tree node data in CSV format, for the currently
         // logged-on user.
         //
@@ -366,7 +382,7 @@ namespace StatPro.Revolution.WebApiExplorer.Controllers
         [AcceptVerbs(HttpVerbs.Get)]
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes",
             Justification = "Not sure what exceptions Newtonsoft.Json can throw.")]
-        public CsvActionResult ExportTimeSeriesAsCsv(String cachedResourceId, String portfolioName, 
+        public CsvActionResult ExportTimeSeriesAsCsv(String cachedResourceId, String portfolioName,
             String resultsTimestamp, String currency, String classifier, String culture)
         {
             const String DateFormat = "MMM dd yyyy";
@@ -474,15 +490,8 @@ namespace StatPro.Revolution.WebApiExplorer.Controllers
             else
                 AppendCsvExportData(output, separator, "Date");
 
-            AppendCsvExportLine(output, separator, jMeasures.Select(measureId =>
-                {
-                    var id = (String)measureId;
-                    var name = Resources.GetTimeSeriesMeasure(id);
-                    if (name.Length > 0)
-                        return name.Replace("[CUR]", currency);
-                    else
-                        return id;
-                }).ToArray());
+            AppendCsvExportLine(output, separator, jMeasures.Select(measureId => GetTimeSeriesMeasureName(
+                (String)measureId, currency)).ToArray());
 
 
             /* Add the lines for the data points. */
@@ -814,6 +823,26 @@ namespace StatPro.Revolution.WebApiExplorer.Controllers
                 name = name.Replace("[SUBPERIOD]", statsFrequency)
                            .Replace("[SUBPERIODS]", statsFrequency + " Returns");
             }
+
+            return name;
+        }
+
+        // Gets the name of a time series measure from the global collection of such measures, given its
+        // measure id.  If 'currency' is specified, then it is used to replace a placeholder that may exist
+        // in the name (placeholder that refers to currency).  Returns the empty string if not found.
+        public String GetTimeSeriesMeasureName(String id, String currency)
+        {
+            if (String.IsNullOrWhiteSpace(id))
+                return String.Empty;
+
+            var measureInfo = GlobalState.TimeSeriesMeasuresInfo.FirstOrDefault(mi => mi.Id == id);
+            if (measureInfo == null)
+                return String.Empty;
+
+            var name = measureInfo.Name;
+
+            if (currency != null)
+                name = name.Replace("[CUR]", currency);
 
             return name;
         }

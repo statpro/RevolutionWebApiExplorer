@@ -17,7 +17,7 @@ function (moment, Backbone, _, getWebApiResource) {
                 segmentName: "",            // name of the segment that the time series pertains to
                 classifierName: "",         // name of the segment's classifier; null for the "Total" segment
                 currency: "",               // currency code of the analysis, e.g. "USD"
-                seriesType: "",             // "Raw" or "CumulativeIndexed"
+                seriesType: "",             // "Raw" or "Cumulative" or "CumulativeIndexed" or "OverallCustomPeriod"
                 startDate: "",              // stored as a moment.js 'moment'
                 endDate: "",                // ditto
                 measures: [],               // array of measure identifiers, in requested order

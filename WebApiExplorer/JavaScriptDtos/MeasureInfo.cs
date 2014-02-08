@@ -56,6 +56,16 @@ namespace StatPro.Revolution.WebApiExplorer.JsDtos
                 return _measureInfo.MeasureType.ToString();
             }
         }
+
+        // Get the measure's ability to be compounded in a Cumulative, Cumulative Indexed and Overall Custom Period
+        // time series (will be false if this measure doesn't pertain to the Time Series resource).
+        public Boolean compoundable
+        {
+            get
+            {
+                return _measureInfo.Compoundable;
+            }
+        }
         #endregion
     }
 }

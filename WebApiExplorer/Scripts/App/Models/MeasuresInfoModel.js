@@ -63,7 +63,8 @@ function (Backbone, _, $, MeasureModel, MeasureCollection) {
                             id: measure.id,
                             name: measure.name,
                             category: measure.category,
-                            type: measure.type
+                            type: measure.type,
+                            compoundable: measure.compoundable      // relevant only for Time Series resource
                         });
                     });
 

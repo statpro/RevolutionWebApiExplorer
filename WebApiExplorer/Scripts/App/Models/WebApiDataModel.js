@@ -26,6 +26,7 @@ function (Backbone, _, helperFns) {
 
                 // Non user-specific attributes.
                 segmentsTreeMeasuresInfo: null,     // instance of MeasuresInfoModel
+                timeSeriesMeasuresInfo: null,       // instance of MeasuresInfoModel
                 exportCultures: null                // instance of CultureCollection
             };
         },
@@ -34,18 +35,6 @@ function (Backbone, _, helperFns) {
             // When the global "timeSeriesSegmentQueriesAvailable" custom event is triggered...
             Backbone.pubSub.on("timeSeriesSegmentQueriesAvailable", this._onTimeSeriesSegmentQueriesAvailable, this);
         },
-
-        // Time Series measures.  Only Rp, Rb and RelR are supported for the CumulativeIndexed series type.
-        // When accessing this array, be sure not to modify it.
-        // TODO: we can get this data from the server, since the strings are built into a .resx file
-        timeSeriesMeasures: [
-            { id: "Rp", name: "Return ([CUR])" },
-            { id: "RelR", name: "Relative Return ([CUR])" },
-            { id: "Wp", name: "Weight Mean" },
-            { id: "WOver", name: "Excess Weight Mean" },
-            { id: "Rb", name: "Benchmark Return ([CUR])" },
-            { id: "Wb", name: "Benchmark Weight Mean" }
-        ],
 
         // Call this method instead of setting attribute "isUserLoggedOn" to false when it has been detected
         // that the user has been logged off.
@@ -163,8 +152,8 @@ function (Backbone, _, helperFns) {
         //   endDate    - use null/empty/undefined for the latest date in the analysis results;
         //                if a string then it must be in ISO 8601 date format ("2012-09-21");
         //                otherwise specify a JavaScript Date object
-        //   seriesType - "raw" or "cumulativeIndexed" (without the quotes); if null/empty/undefined or
-        //                unrecognised then "raw" will be used.
+        //   seriesType - "raw" or "cumulative" or "cumulativeIndexed" or "overallCustomPeriod" (without the quotes);
+        //                if null/empty/undefined or unrecognised then "raw" will be used.
         //
         // Returns null if any arg is invalid.
         // See the Web API's documentation for the time-series-query link relation for more details.
@@ -202,8 +191,12 @@ function (Backbone, _, helperFns) {
             // Get the type.
             if (!seriesType) {
                 type = "raw";
+            } else if (seriesType.toUpperCase() === "CUMULATIVE") {
+                type = "cumulative";
             } else if (seriesType.toUpperCase() === "CUMULATIVEINDEXED") {
                 type = "cumulativeIndexed";
+            } else if (seriesType.toUpperCase() === "OVERALLCUSTOMPERIOD") {
+                type = "overallCustomPeriod";
             } else {
                 type = "raw";
             }
@@ -214,6 +207,102 @@ function (Backbone, _, helperFns) {
                                       .replace("{startDate}", encodeURIComponent(start))
                                       .replace("{endDate}", encodeURIComponent(end))
                                       .replace("{seriesType}", encodeURIComponent(type));
+        },
+
+        // Returns information about extra measures that required by a Web API time series resource request, over
+        // and above the measures that are actually being requested by the user.  There are normally no such extra
+        // measures.  However, for the Cumulative, CumulativeIndexed and OverallCustomPeriod series types, in
+        // conjunction with a small number of measures (e.g. Relative Return), extra measures are required
+        // (e.g. Portfolio Return and Benchmark Return).  If not explicitly requested by the client application, the
+        // Web API will get time series data for these extra measures, will use this data in the compounding of the
+        // requested measures that require the extra measures, but *won't* return the required-but-not-requested extra
+        // measures to the client application.  More significantly for a client application, required-but-not-requested
+        // extra measures count towards to the maximum number of time series measures per request (10).  Information
+        // returned by this method can be used to detect if this maximum limit will be exceeded, and to warn the user
+        // accordingly.
+        //
+        // Args:-
+        //   measures   - must be set to a non-empty array containing one or more user-requested measure identifiers;
+        //                see https://revapi.statpro.com/v1/apidocs/measures/timeSeries;
+        //   seriesType - "raw" or "cumulative" or "cumulativeIndexed" or "overallCustomPeriod" (without the quotes);
+        //                if null/empty/undefined or unrecognised then the series type will be taken to be Raw.
+        //
+        // Returns null if no extra measures are required; otherwise returns an object whose properties are set
+        // to the identifiers of the requested measures that require extra measures that aren't requested.  The
+        // value of each property is an array of one or more required-but-not-requested extra measure identifiers.
+        // For example:-
+        // {
+        //     "ECompoundC": [
+        //         "ETotalMCA",         -- these two are required for ECompoundC compounding, but aren't requested
+        //         "EAllocC"
+        //     ],
+        //     "RelR": [
+        //         "Rb"                 -- this one is required for RelR compounding, but isn't requested
+        //     ]
+        // }
+        //
+        // NOTE 1: the measure identifiers in the returned object will be case-correct.
+        //
+        // NOTE 2: there may be overlap in the extra measures in the returned object; e.g. the same extra measure
+        // (e.g. Rp) may be listed more than once (e.g. Rp may be required by both RelR and RelRGeom).
+        //
+        getExtraRequiredTimeSeriesMeasures: function (measures, seriesType) {
+            var extraMeasuresInfo, upperMeasureIds, result;
+
+            // Sanity check.
+            if ((!measures) || (measures.length === 0)) {
+                return null;
+            }
+
+            // Only Cumulative, CumulativeIndexed and OverallCustomPeriod series types have extra measures.
+            if (!seriesType) {
+                return null;
+            }
+            if ((seriesType.toUpperCase() !== "CUMULATIVE") && (seriesType.toUpperCase() !== "CUMULATIVEINDEXED") &&
+                (seriesType.toUpperCase() !== "OVERALLCUSTOMPERIOD")) {
+                return null;
+            }
+
+            // Get information on all of the extra measures for compounding.
+            extraMeasuresInfo = this._getExtraTimeSeriesMeasuresForCompounding();
+
+            // From the specified array of measure identifiers, derive an array with each identifier in upper case.
+            upperMeasureIds = _.map(measures, function (mId) { return mId.toUpperCase(); });
+
+            // Initialize the object to be returned.
+            result = {};
+
+            // For each measure that requires extra measures for compounding...
+            _.each(extraMeasuresInfo, function (extraIds, measureId) {
+                var upperMeasureId,
+                    notRequested = [];
+
+                // Sanity check.
+                if (!extraMeasuresInfo.hasOwnProperty(measureId)) {
+                    return;
+                }
+
+                // If this measure requested?  Return if not.
+                upperMeasureId = measureId.toUpperCase();
+                if (!_.find(upperMeasureIds, function (m) { return m === upperMeasureId; })) {
+                    return;
+                }
+
+                // Are any of this measure's extra measures *not* requested?  If so, add the details to the 'result'
+                // object.
+                _.each(extraIds, function (extraId) {
+                    var upperExtraId = extraId.toUpperCase();
+                    if (!_.find(upperMeasureIds, function (m) { return m === upperExtraId; })) {
+                        notRequested.push(extraId);
+                    }
+                });
+                if (notRequested.length > 0) {
+                    result[measureId] = notRequested;
+                }
+            });
+
+            // Return.
+            return (Object.getOwnPropertyNames(result).length === 0) ? null : result;
         },
 
         // Private
@@ -234,6 +323,41 @@ function (Backbone, _, helperFns) {
                 analysis.addTimeSeriesQueryForSegment(query.href, query.name, query.classifier, 
                     (index === (count - 1)) ? false : true);
             });
+        },
+
+        // Private
+        // Gets an object that indicates the extra measures that are required when compounding certain time series
+        // measures.  For example, measure Relative Return ("RelR") requires extra measures Portfolio Return ("Rp")
+        // and Benchmark Return ("Rb").  For more information, see method 'getExtraRequiredTimeSeriesMeasures' above.
+        _getExtraTimeSeriesMeasuresForCompounding: function () {
+            return {
+                "ECompoundC": [
+                    "ETotalMCA",
+                    "ETotalLocal",
+                    "EAllocC",
+                    "ETimingC"
+                ],
+                "ETotalC": [
+                    "ETotalMCA",
+                    "ETotalLocal"
+                ],
+                "RelR": [
+                    "Rp",
+                    "Rb"
+                ],
+                "RelRGeom": [
+                    "Rp",
+                    "Rb"
+                ],
+                "RelRGeomLocal": [
+                    "RpLocal",
+                    "RbLocal"
+                ],
+                "RelRlocal": [
+                    "RpLocal",
+                    "RbLocal"
+                ]
+            };
         }
     });
 

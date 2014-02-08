@@ -278,6 +278,70 @@
           <div id="timeSeriesNoResults">
           </div>
 
+          <div id="timeSeriesMeasuresModal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="timeSeriesMeasuresModalLabel" aria-hidden="true">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h3 id="timeSeriesMeasuresModalLabel">Time Series Measures</h3>
+            </div>
+            <div class="modal-body">
+              <form>
+                <fieldset>
+                  <legend><small>Layouts</small></legend>
+                  <div class="controls controls-row">
+                    <label class="span2" for="timeSeriesMeasuresModalLayouts">Layout:</label>
+                    <select id="timeSeriesMeasuresModalLayouts" class="selectModalLayoutsSelect span5"></select>
+                    <div class="btn-group span5">
+                      <button class="btn dropdown-toggle" data-toggle="dropdown">Actions <span class="caret"></span></button>
+                      <ul class="dropdown-menu">
+                        <li><a href="#" class="selectModalCreateLayoutAction">Create Layout</a></li>
+                        <li><a href="#" class="selectModalExportLayoutAction">Export Layout</a></li>
+                        <li><a href="#" class="selectModalImportLayoutAction">Import Layout</a></li>
+                        <li><a href="#" class="selectModalResetLayoutAction">Reset Layout</a></li>
+                        <li><a href="#" class="selectModalDeleteLayoutAction">Delete Layout</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="selectModalLayoutActionCntr controls controls-row invisible">
+                    <label class="selectModalLayoutActionLabel span2" for="timeSeriesMeasuresModalActionInput">Label:</label>
+                    <input type="text" id="timeSeriesMeasuresModalActionInput" class="selectModalLayoutActionInput span5" />
+                    <button class="btn btn-primary btn-small selectModalLayoutActionDo span2" type="button">Do it</button>
+                    <button class="btn btn-small selectModalLayoutActionCancel span2" type="button">Cancel</button>
+                  </div>
+                </fieldset>
+
+                <fieldset>
+                  <legend><small class="selectModalMeasuresLegendTitle">Measures</small></legend>
+                  <div class="controls controls-row">
+                    <label class="span2" for="timeSeriesMeasuresModalCategories">Category:</label>
+                    <select id="timeSeriesMeasuresModalCategories" class="selectModalCategoriesSelect span10"></select>
+                  </div>
+                  <div class="controls controls-row">
+                    <label class="span2">Measures:</label>
+                    <div id="timeSeriesMeasuresModalMeasures" class="selectModalMeasuresCntr span10"></div>
+                  </div>
+                  <div>
+                    <span class="help-block selectModalMeasuresSelectionInfo pull-right">{0} measures; {1} selected</span>
+                    <span id="timeSeriesMeasuresModalSelectAllOrNoneCntr" class="pull-right">
+                      <span>Select:</span>
+                      <button class="btn btn-mini selectModalSelectAllMeasures" type="button">All</button>
+                      <button class="btn btn-mini selectModalSelectNoMeasures" type="button">None</button>
+                    </span>
+                  </div>
+                  <br /><br />
+                  <div class="controls controls-row">
+                    <span class="help-block">* Starred measures are compoundable in Cumulative, Cumulative
+                      Indexed and Overall Custom Period time series.
+                    </span>
+                  </div>
+                </fieldset>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <span class="text-info pull-left">Time series layouts should contain no more than 10 measures each.</span>
+              <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+            </div>
+          </div>
+
           <form id="timeSeriesQueryForm" class="form-horizontal hide well">
             <div class="control-group">
               <label class="control-label" for="timeSeriesSegmentSelect">Segment:</label>
@@ -291,15 +355,25 @@
               <div class="controls">
                 <select id="timeSeriesTypeSelect" name="timeSeriesTypeSelect" class="span6">
                   <option value="raw">Raw</option>
+                  <option value="cumulative">Cumulative</option>
                   <option value="cumulativeIndexed">Cumulative Indexed</option>
+                  <option value="overallCustomPeriod">Overall Custom Period</option>
                 </select>
               </div>
             </div>
             <div id="timeSeriesMeasuresControlGroup" class="control-group">
-              <label class="control-label" for="timeSeriesMeasuresSelect">Measures:</label>
+              <label class="control-label">Measures:</label>
               <div class="controls">
-                <select id="timeSeriesMeasuresSelect" name="timeSeriesMeasuresSelect" multiple="multiple" class="span6"></select>
-                <span class="help-block">ctrl+click to select at least one</span>
+                <div id="timeSeriesQueryMeasuresBtnGroup" class="btn-group">
+                  <button id="timeSeriesQueryMeasuresBtn" class="btn dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li class="divider"></li>
+                    <li><a id="timeSeriesQueryEditMeasures" href="#">Edit...</a></li>
+                  </ul>
+                </div>
+                <span class="help-block">request at least one measure, but no more than ten</span>
               </div>
             </div>
             <div class="control-group">
@@ -333,6 +407,7 @@
           </div>
         </div>
       </div>
+
     </div>
   </div>
 </div>
@@ -667,10 +742,8 @@
       <th>Start Date</th>
       <th>End Date</th>
     <% } %>
-    <% _.each(measureIds, function(id, index) { %>
-      <th>
-       <a href="#" data-toggle="tooltip" title="<%- measureNames[index] %>"><%- id %></a>
-      </th>
+    <% _.each(measureNames, function(name) { %>
+      <th><%- name %></th>
     <% }); %>
     </tr>
   </thead>
@@ -707,6 +780,7 @@
     logOnOff: "@Url.Action("LogOnOff", "Home")",
     getWebApiResource: "@Url.Action("GetResource", "WebApi")",
     getSegmentsTreeNodeMeasures: "@Url.Action("GetSegmentsTreeNodeMeasures", "WebApi")",
+    getTimeSeriesMeasures: "@Url.Action("GetTimeSeriesMeasures", "WebApi")",
     exportSegmentsTreeNodeAsCsv: "@VirtualPathUtility.ToAbsolute("~/WebApi/ExportSegmentsTreeNodeAsCsv/{cachedResourceId}/{portfolioName}/{resultsTimestamp}/{currency}/{statsFrequency}/{culture}")",
     exportTimeSeriesAsCsv: "@VirtualPathUtility.ToAbsolute("~/WebApi/ExportTimeSeriesAsCsv/{cachedResourceId}/{portfolioName}/{resultsTimestamp}/{currency}/{classifier}/{culture}")",
     getExportCultures: "@Url.Action("GetExportCultures", "Home")"

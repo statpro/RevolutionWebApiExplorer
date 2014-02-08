@@ -45,6 +45,11 @@ function (Backbone, _, $, MeasureLayoutCollection, MeasureLayoutModel, MeasureMo
         // an alias for the above collection
         layouts: null,
 
+        // flag saying whether or not the modal should provide a visual indication of (time series) measures being
+        // compoundable; can be specified on construction; the default is false
+        // NOTA BENE: this flag is available within the view via 'this.options.indicateCompoundableMeasures'.
+        indicateCompoundableMeasures: false,
+
         // instance of MeasuresInfoModel that contains details of *all* the selectable measures;
         // must be specified on construction; must be loaded with data before our render
         // method is called
@@ -513,7 +518,8 @@ function (Backbone, _, $, MeasureLayoutCollection, MeasureLayoutModel, MeasureMo
         // checked/unchecked state of each measure.
         _getMeasuresHtml: function (category) {
             var measures, measureIdsInLayout,
-                checkBoxChecked = "checked='checked'";
+                checkBoxChecked = "checked='checked'",
+                indicateCompoundable = this.options.indicateCompoundableMeasures;
 
             if (!category) {
                 return "";
@@ -533,6 +539,16 @@ function (Backbone, _, $, MeasureLayoutCollection, MeasureLayoutModel, MeasureMo
                 this.measuresPerCategory[category] = measures;
             }
 
+            // Function to get the is-compoundable indicator (a string) for the specified measure.
+            // Returns the empty string if there is no such indicator.
+            function getCompoundableIndicator(measure) {
+                if (indicateCompoundable && measure.compoundable) {
+                    return " *";
+                } else {
+                    return "";
+                }
+            }
+
             // Reduce to HTML representing checkboxes.
             return _.reduce(measures, function (memo, measure) {
                 var check = (measureIdsInLayout[measure.id] === true) ? checkBoxChecked : "";
@@ -540,7 +556,7 @@ function (Backbone, _, $, MeasureLayoutCollection, MeasureLayoutModel, MeasureMo
                 return memo +
                     "<label class='checkbox'>" +
                     "<input data-measure-id='" + measure.id + "' type='checkbox' " + check + "/>" +
-                    this._getMeasureDisplayName(measure.name) +
+                    this._getMeasureDisplayName(measure.name) + getCompoundableIndicator(measure) +
                     "</label>";
             }, "", this);
         },

@@ -8,25 +8,30 @@ define([
     "Instances/RevWebApi",
     "Helpers/GetWebApiResource",
     "Helpers/Functions",
+    "Models/MeasureModel",
     "Views/ExportCulturesSelectView"
 ],
-function (Backbone, _, $, webApiData, revWebApi, getWebApiResource, helperFns, ExportCulturesSelectView) {
+function (Backbone, _, $, webApiData, revWebApi, getWebApiResource, helperFns, MeasureModel,
+    ExportCulturesSelectView) {
     "use strict";
 
     // Time Series Results view.
     var TimeSeriesResultsView = Backbone.View.extend({
+        // specify instance of MeasuresInfoModel when creating, as the 'allTimeSeriesMeasures' option
         el: $("#timeSeriesResults"),
         model: null,                       // specify instance of TimeSeriesResultsModel when creating
         exportCulturesSelectView: null,    // our contained Export Cultures Select view
         tagName: "div",
         resultsPropsTemplate: _.template($("#timeSeriesResultsPropertiesTableTemplate").html()),
         dataPointsTemplate: _.template($("#timeSeriesDataPointsTableTemplate").html()),
+
         initialize: function () {
             this.listenTo(webApiData, "change:isUserLoggedOn", this.render);
             this.listenTo(this.model, "change", this.render);
         },
+
         render: function () {
-            var attrs, propsTable, pointsTable, periodic, exportHtml, exportCultures;
+            var attrs, propsTable, periodic, pointsTable, exportHtml, exportCultures;
 
             // If the user isn't logged on...
             if (webApiData.get("isUserLoggedOn") === false) {
@@ -57,7 +62,6 @@ function (Backbone, _, $, webApiData, revWebApi, getWebApiResource, helperFns, E
             periodic = (attrs.dataPointsType === "periodic") ? true : false;
             pointsTable = this.dataPointsTemplate({
                 periodic: periodic,
-                measureIds: attrs.measures,
                 measureNames: this._getMeasureNames(attrs.measures),
                 items: (attrs.datedItems !== null) ? attrs.datedItems : attrs.periodicItems,
                 numColumns: attrs.measures.length + (periodic ? 2 : 1)
@@ -78,6 +82,12 @@ function (Backbone, _, $, webApiData, revWebApi, getWebApiResource, helperFns, E
             // Render out the two tables into our div, plus controls for exporting the time series results as CSV.
             this.$el.html(propsTable + exportHtml + pointsTable);
 
+            // Fix for IE9 table rendering bug.
+            // http://blog.endpoint.com/2013/02/ghost-table-cells-in-ie9.html
+            this.$("#timeSeriesDataPointsTable").html(function (i, el) {
+                return el.replace(/>\s*</g, '><');
+            });
+
             // Wire up an event handler for when the "Export as CSV" button is clicked.
             this.$("#exportTimeSeriesCsvBtn").off("click").click($.proxy(this._exportAsCsv, this));
 
@@ -89,16 +99,6 @@ function (Backbone, _, $, webApiData, revWebApi, getWebApiResource, helperFns, E
                 });
                 this.exportCulturesSelectView.render();
             }
-
-            // Enable the tooltips in the data points table.
-            this.$('#timeSeriesDataPointsTable').tooltip({
-                selector: "[data-toggle=tooltip]"
-            });
-
-            // Disable the tooltips' links.
-            this.$("#timeSeriesDataPointsTable thead [href=#]").off("click").click(function (e) {
-                e.preventDefault();
-            });
 
             // After rendering, scroll down so that the user can view the results.
             setTimeout(function () {
@@ -114,19 +114,17 @@ function (Backbone, _, $, webApiData, revWebApi, getWebApiResource, helperFns, E
         // Returns an array of time series measure names, whose identifiers are specified in the 'measureIds' array.
         // (If a name cannot be found for a measure id, then the id is returned as the name.)
         _getMeasureNames: function (measureIds) {
-            var measures = webApiData.timeSeriesMeasures,
-                currency = this.model.get("currency"),
-                names = [];
+            var measuresInfo = this.options.allTimeSeriesMeasures,
+                currency = this.model.get("currency");
 
-            _.each(measureIds, function (id) {
-                var measure = _.find(measures, function (m) {
-                    return m.id === id;
-                });
-
-                names.push(measure ? measure.name.replace("[CUR]", currency) : id);
+            return _.map(measureIds, function (mid) {
+                var name = measuresInfo.getMeasureName(mid);
+                if (!name) {
+                    return mid;
+                } else {
+                    return MeasureModel.getMeasureDisplayName(name, currency);
+                }
             });
-
-            return names;
         },
 
         // Private
@@ -136,6 +134,7 @@ function (Backbone, _, $, webApiData, revWebApi, getWebApiResource, helperFns, E
             var exportUri = revWebApi.actionUris.exportTimeSeriesAsCsv,
                 portfolioName = webApiData.get("analysis").get("name"),
                 resultsTimestamp = webApiData.get("analysis").get("resultsTimestamp"),
+                timeSeriesSelfUri = this.model.get("selfHref"),
                 currency = this.model.get("currency"),
                 classifier = this.model.get("classifierName"),
                 culture;
@@ -160,7 +159,7 @@ function (Backbone, _, $, webApiData, revWebApi, getWebApiResource, helperFns, E
             // NOTE: ASP.NET does not allow colons in the path of a URI, even encoded as %3A.  So we replace the
             // colons with spaces.
             //
-            getWebApiResource(this.model.get("selfHref"), function (data) {
+            getWebApiResource(timeSeriesSelfUri, function (data) {
                 var uri = exportUri.replace("{cachedResourceId}", encodeURIComponent(data.cachedResourceId));
                 uri = uri.replace("{portfolioName}", encodeURIComponent(helperFns.base64EncodeString(portfolioName)));
                 uri = uri.replace("{resultsTimestamp}", encodeURIComponent(resultsTimestamp.split(':').join(' ')));
@@ -173,7 +172,6 @@ function (Backbone, _, $, webApiData, revWebApi, getWebApiResource, helperFns, E
             false,  // don't ignore error status (i.e. report errors to the user)
             true);  // cache resource in session state
         }
-
     });
 
     return TimeSeriesResultsView;
