@@ -53,6 +53,8 @@ Structural styles
 #footer a:active {text-decoration: none; color:#000000;}
 #footer a:hover {text-decoration: none; color: #b42025;}
 
+#view-source { cursor: pointer;}
+#result {white-space: pre;}
 
 /* 
 ------------------------------

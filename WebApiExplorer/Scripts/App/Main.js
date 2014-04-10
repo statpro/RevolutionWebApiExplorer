@@ -192,5 +192,9 @@ function ($, getWebApiResource, webApiData, revWebApi, locallyStoredData, Cultur
                 portfoliosInfo.getPage(1);
             });
         });
+
+      $('#view-source').click(function() {
+        $('#code-result').toggle();
+      });
     });
 });
