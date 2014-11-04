@@ -5,7 +5,7 @@ This repository contains the source code for the [StatPro Revolution Web API Exp
  
 The StatPro Revolution Web API Explorer allows users to extract their Revolution data from the Revolution Web API interactively, using a simple web interface.  It allows you to explore the features of the Web API, and shows what types of data the Web API can (and by inference) can't extract.
 
-As new features and new data types are added to the Web API, access to them will be surfaced in the Web API Explorer in the first instance.
+The Web API Explorer exposes only a subset of available functionality of the StatPro Revolution Web API, intended for illustrative and tutorial purposes.
 
 The source code for the Web API Explorer is provided as Open Source under the MIT License.
 
