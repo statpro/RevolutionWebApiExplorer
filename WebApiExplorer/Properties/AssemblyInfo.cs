@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyCopyright("Copyright 2013 StatPro S.A. - a member of StatPro Group plc")]
+[assembly: AssemblyCopyright("Copyright 2013-2017 StatPro Ltd. - a member of StatPro Group plc")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyProduct("StatPro Revolution Web API Explorer")]
 [assembly: AssemblyInformationalVersion("1.0.0.0000")]			  // = product version
