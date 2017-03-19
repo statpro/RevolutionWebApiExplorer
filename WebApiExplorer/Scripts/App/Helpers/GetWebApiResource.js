@@ -93,7 +93,10 @@ function ($, revWebApi, webApiData) {
                 // If we've got a JSON representation, parse it and store the resulting JavaScript object in
                 // new property 'jsObject'.
                 if ((data.httpStatus === 200) && (data.isJson)) {
-                    data.jsObject = $.parseJSON(data.representation);
+                  data.jsObject = $.parseJSON(data.representation);
+
+                  $('#result').html('');
+                  document.getElementById('result').appendChild(document.createTextNode(JSON.stringify(data.jsObject, null, 2)));
                 }
 
                 // Call back with the returned response.
