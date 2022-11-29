@@ -1,7 +1,7 @@
 
 # Introduction #
 
-This repository contains the source code for the [StatPro Revolution Web API Explorer](https://revapiexplorer.statpro.com) web application.
+This repository contains the source code for the StatPro Revolution Web API Explorer web application.
  
 The StatPro Revolution Web API Explorer allows users to extract their Revolution data from the Revolution Web API interactively, using a simple web interface.  It allows you to explore the features of the Web API, and shows what types of data the Web API can (and by inference) can't extract.
 
@@ -38,7 +38,6 @@ The application's source code shows developers how to:-
 * follow the approved [workflow](http://developer.statpro.com/Revolution/WebApi/Intro#started) for accessing resources that are exposed by the Web API
 * get [portfolios](http://developer.statpro.com/Revolution/WebApi/Resource/Portfolios), [analysis](http://developer.statpro.com/Revolution/WebApi/Resource/PortfolioAnalysis) and results data from the Web API
 * detect if the Web API has returned one of its [specific errors](http://developer.statpro.com/Revolution/WebApi/Intro#statusCodes)
-* detect request blockage by the Web API due to a [Fair Usage Policy violation](http://developer.statpro.com/Revolution/WebApi/FairUsagePolicy)
 * detect if the Web API has [rejected the access token because it has expired](http://developer.statpro.com/Revolution/WebApi/Authorization/ServerSideWebApps#step5)
 * get a [new access token from a refresh token](http://developer.statpro.com/Revolution/WebApi/Authorization/ServerSideWebApps#step5)
 * [re-prompt the user for access](http://developer.statpro.com/Revolution/WebApi/Authorization/ServerSideWebApps#step1) if getting an access token from a refresh token fails
@@ -72,7 +71,7 @@ The Web API Explorer does not surface every single feature of the Revolution Web
 
 # License #
 
-(c) Copyright 2013-2017 StatPro Ltd. - a member of StatPro Group plc
+(c) Copyright 2013-2022 StatPro Ltd. - a member of StatPro Group plc
 
 <p>Permission is hereby granted, free of charge, to any person obtaining a copy<br />
 of this software and associated documentation files (the "Software"), to deal<br />

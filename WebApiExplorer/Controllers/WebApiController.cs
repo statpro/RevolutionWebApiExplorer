@@ -42,6 +42,12 @@ namespace StatPro.Revolution.WebApiExplorer.Controllers
         // if true then the CachedResourceId property of the return WebApiResourceResult object will contain its
         // identifer.  Use this feature to export data as CSV; see the ExportSegmentsTreeNodeAsCsv and
         // ExportTimeSeriesAsCsv actions for more details.
+        //
+        // !!!!! PLEASE NOTE !!!!!
+        // The Web API Explorer exposes only a subset of available functionality of the StatPro Revolution Web API, intended
+        // for illustrative and tutorial purposes.  Refer to the http://developer.statpro.com/Revolution/WebApi/Intro
+        // for full details.
+        // !!!!!!!!!!!!!!!!!!!!!!!
         [AcceptVerbs(HttpVerbs.Post)]
         [ValidateAntiForgeryToken()]
         public async Task<JsonResult<WebApiResourceResult>> GetResource(String uri, String format, Boolean cache)
@@ -146,6 +152,12 @@ namespace StatPro.Revolution.WebApiExplorer.Controllers
 
         // GetSegmentsTreeNodeMeasures action.  Gets information about the Segments Tree Node's requestable measures,
         // for consumption by JavaScript.
+        //
+        // !!!!! PLEASE NOTE !!!!!
+        // The Web API Explorer exposes only a subset of available functionality of the StatPro Revolution Web API, intended
+        // for illustrative and tutorial purposes.  Refer to the http://developer.statpro.com/Revolution/WebApi/Intro
+        // for full details.
+        // !!!!!!!!!!!!!!!!!!!!!!!
         [AcceptVerbs(HttpVerbs.Post)]
         [ValidateAntiForgeryToken()]
         public JsonResult<Measures> GetSegmentsTreeNodeMeasures()
@@ -162,6 +174,12 @@ namespace StatPro.Revolution.WebApiExplorer.Controllers
 
         // GetTimeSeriesMeasures action.  Gets information about the Time Series's requestable measures,
         // for consumption by JavaScript.
+        //
+        // !!!!! PLEASE NOTE !!!!!
+        // The Web API Explorer exposes only a subset of available functionality of the StatPro Revolution Web API, intended
+        // for illustrative and tutorial purposes.  Refer to the http://developer.statpro.com/Revolution/WebApi/Intro
+        // for full details.
+        // !!!!!!!!!!!!!!!!!!!!!!!
         [AcceptVerbs(HttpVerbs.Post)]
         [ValidateAntiForgeryToken()]
         public JsonResult<Measures> GetTimeSeriesMeasures()
@@ -191,6 +209,11 @@ namespace StatPro.Revolution.WebApiExplorer.Controllers
         // 'culture' specifies the .NET name of the specific culture that is to be used to format the numbers in the
         // exported data (e.g. "en-GB").  If null/empty/whitespace/invalid then "en-US" will be used.
         //
+        // !!!!! PLEASE NOTE !!!!!
+        // The Web API Explorer exposes only a subset of available functionality of the StatPro Revolution Web API, intended
+        // for illustrative and tutorial purposes.  Refer to the http://developer.statpro.com/Revolution/WebApi/Intro
+        // for full details.
+        // !!!!!!!!!!!!!!!!!!!!!!!
         [AcceptVerbs(HttpVerbs.Get)]
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes",
             Justification = "Not sure what exceptions Newtonsoft.Json can throw.")]
@@ -379,6 +402,11 @@ namespace StatPro.Revolution.WebApiExplorer.Controllers
         // 'culture' specifies the .NET name of the specific culture that is to be used to format the dates and
         // numbers in the exported data (e.g. "en-GB").  If null/empty/whitespace/invalid then "en-US" will be used.
         //
+        // !!!!! PLEASE NOTE !!!!!
+        // The Web API Explorer exposes only a subset of available functionality of the StatPro Revolution Web API, intended
+        // for illustrative and tutorial purposes.  Refer to the http://developer.statpro.com/Revolution/WebApi/Intro
+        // for full details.
+        // !!!!!!!!!!!!!!!!!!!!!!!
         [AcceptVerbs(HttpVerbs.Get)]
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes",
             Justification = "Not sure what exceptions Newtonsoft.Json can throw.")]
@@ -577,16 +605,6 @@ namespace StatPro.Revolution.WebApiExplorer.Controllers
                     });
                 }
             }
-
-
-            // If we wanted, we could do something server-side if the request has been forbidden due to a
-            // Fair Usage Policy violation, such as log the user out.  For now we'll let the JavaScript
-            // handle it.
-            //   if (ex.RequestForbiddenDueToFairUsagePolicyViolation)
-            //   {
-            //       // do something
-            //   }
-
 
             // For all other error conditions...
             return ToJsonResult(new WebApiResourceResult()

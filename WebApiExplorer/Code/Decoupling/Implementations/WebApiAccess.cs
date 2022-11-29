@@ -78,18 +78,13 @@ namespace StatPro.Revolution.WebApiExplorer
                             // Has the access token expired (or is it invalid)?
                             var accessTokenRejected = IsAccessTokenExpiredOrInvalid(response);
 
-                            // Was the request blocked/forbidden due to a Fair Usage Policy violation?
-                            var blockedDueToFup = IsRequestBlockedDueToFairUsagePolicy(response,
-                                errorInfo.Item2);   // recognised Web API error code (or null)
-
                             // Throw WebApiException, specifying as much information about the error as possible.
                             throw new WebApiException(errorInfo.Item1)   // exception message = error message
                             {
                                 StatusCode = response.StatusCode,        // status code
                                 ErrorCode = errorInfo.Item2,             // recognised Web API error code (or null)
                                 UnrecognisedErrorCode = errorInfo.Item3, // unrecognised Web API error code (or null)
-                                AccessTokenExpiredOrInvalid = accessTokenRejected,
-                                RequestForbiddenDueToFairUsagePolicyViolation = blockedDueToFup
+                                AccessTokenExpiredOrInvalid = accessTokenRejected
                             };
                         }
                 }
@@ -182,22 +177,6 @@ namespace StatPro.Revolution.WebApiExplorer
 
             if ((headerValue != null) && (headerValue.Parameter != null) &&
                 (headerValue.Parameter.IndexOf("error=\"invalid_token\"", StringComparison.Ordinal) >= 0))
-                return true;
-            else
-                return false;
-        }
-
-        // Returns true if the Web API has indicated that the request was blocked/forbidden due to a Fair Usage
-        // Policy violation.  In all other cases the method returns false.
-        // 'response' is the response that was returned; 'webApiErrorCode' contains the Web API error code that the
-        // Web API may have returned (if non-null).
-        public static Boolean IsRequestBlockedDueToFairUsagePolicy(HttpResponseMessage response, 
-            WebApiErrorCode? webApiErrorCode)
-        {
-            if ((response != null) &&
-                (webApiErrorCode != null) &&
-                (response.StatusCode == HttpStatusCode.Forbidden) &&
-                (webApiErrorCode.Value == WebApiErrorCode.UserTenancyAndClientAppBlacklisted))
                 return true;
             else
                 return false;

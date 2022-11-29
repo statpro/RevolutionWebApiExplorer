@@ -136,16 +136,6 @@ namespace StatPro.Revolution.WebApiExplorer
         /// Ignore this property is <see cref="StatusCode"/> is null.
         /// </remarks>
         public Boolean AccessTokenExpiredOrInvalid { get; set; }
-
-        /// <summary>
-        /// True if the Web API indicates that the request is forbidden because the combination of the requesting
-        /// client application and the user's organization has been blacklisted due to usage exceeding the
-        /// Revolution Web API's Fair Usage Policy limits.
-        /// </summary>
-        /// <remarks>
-        /// Ignore this property is <see cref="StatusCode"/> is null.
-        /// </remarks>
-        public Boolean RequestForbiddenDueToFairUsagePolicyViolation { get; set; }
         #endregion
     }
 }
